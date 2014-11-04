@@ -1,7 +1,7 @@
 hackerhank_challenges
 =====================
 
-Solutions for some https://www.hackerrank.com chanllenges.
+Solutions for some https://www.hackerrank.com challenges.
 
 ### Running a challenge
 
