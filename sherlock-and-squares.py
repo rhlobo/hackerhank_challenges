@@ -2,8 +2,8 @@
 
 
 import tester
-tester.config_testcase('sherlock-and-squares_input-02.txt',
-                       'sherlock-and-squares_output-02.txt')
+tester.add_testcase('sherlock-and-squares_input-02.txt', 'sherlock-and-squares_output-02.txt')
+tester.configure()
 
 
 '''
@@ -49,7 +49,6 @@ def square_ints(a, b):
         if isqrt ** 2 > b:
             return count
         count += 1
-
 
 T = int(raw_input())
 for _ in xrange(T):

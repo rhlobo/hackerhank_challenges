@@ -8,8 +8,8 @@ Solutions for https://www.hackerrank.com
 Just run them...
 
 Some of the challenge's immplementations import the `tester` module, 
-configuring how tests whould run. It might:
+enabling more options on how tests can be execute:
 
-- Configure a test case using files contained within the project files.
-- Provide a command line argument parser so that files can be specified.
-- The challenge script will be executed, waiting for your input (as specified in the problem desciption).
+- __stdio__: Runs the challenge normally. Input and output should be provided thorugh `stdin` and `stdout`, as specified by HackerHank. The values should be in the same format as in the problem description.
+- __files__: Configure a test case supplying both an input file and an output file.
+- __included__: Runs the challenge's pre-configured test cases (should be configured at the challenges source code, just after importing `tester`)
