@@ -15,24 +15,37 @@ https://www.hackerrank.com/challenges/sherlock-and-squares
 import math
 
 
-def is_square_int(x):
+def is_square_int(x, newton_method=False):
     '''
-        Dummy solution.
+    Finds the integer square root, squares it again,
+    and compares it with the original number.
+    '''
+    isqrt = _isqrt_impl_b(x) if newton_method else _isqrt_impl_a(x)
+    return isqrt if isqrt ** 2 == x else None
 
-        Finds the square root, rounds it to the nearest
-        integer and squares it again, comparing it with
-        the original number.
 
-        0.5 is added before rounding since you can never
-        depend on exact comparisons when dealing with
-        floating point computations.
+def _isqrt_impl_a(x):
+    '''
+    0.5 is added before rounding since you can never
+    depend on exact comparisons when dealing with
+    floating point computations. Faster due to
+    `math.sqrt` optimization.
+    '''
+    return int(math.sqrt(x) + 0.5)
 
-        Alternate solution could use newton's method to
-        quickly zero in the nearest integer square root
-        (lower or equal), then squaring for the comparison.
-        '''
-    sqrt = int(math.sqrt(x) + 0.5)
-    return sqrt if sqrt ** 2 == x else None
+
+def _isqrt_impl_b(x):
+    '''
+    Uses newton's method to quickly zero in the nearest
+    integer square root. The algorithm is implemented for
+    theoretical reasons, but is actually slower.
+    '''
+    x0, n = x / 1.0, x
+    while True:
+        x1 = (x0 + (n / x0)) / 2
+        if abs(x1 - x0) < 1:
+            return int(x1)
+        x0 = x1
 
 
 def square_ints(a, b):
