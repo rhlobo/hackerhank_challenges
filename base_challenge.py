@@ -6,7 +6,6 @@ tester.configure()
 
 
 '''
-Hackerhank > All Domains > Algorithms > XXX > XXX
 https://www.hackerrank.com/challenges/XXX
 '''
 

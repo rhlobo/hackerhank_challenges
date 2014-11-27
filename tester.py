@@ -5,6 +5,7 @@ import sys
 import argh
 import atexit
 import logging
+import datetime
 import StringIO
 
 
@@ -14,6 +15,21 @@ _testcases = []
 
 @argh.named('stdio')
 def _test_from_stdio():
+    '''
+    import os
+    import trace
+    import __main__
+
+    main = os.path.splitext(os.path.basename(__main__.__file__))[0]
+    whitelist = set([main])
+    blacklist = ['trace', 'string', 'threading', 'posixpath',
+                 'dispatching', 'compat', 'completion', 'assembling',
+                 '__init__', 'utils'] + sys.modules.keys()
+    modules = [m for m in blacklist if m not in whitelist]
+
+    tracer = trace.Trace(count=0, trace=1, ignoremods=modules)
+    tracer.run('import %s' % main)
+    '''
     pass
 
 
@@ -30,6 +46,8 @@ def _test_from_files(input_file, output_file):
         sys.stdin.write(f.read())
         sys.stdin.seek(0)
 
+    logging.debug('Registering exit handler for result comparison...')
+    time_start = datetime.datetime.now()
     def _test_it():
         logging.debug('Verifying stdout contents...')
         try:
@@ -43,13 +61,14 @@ def _test_from_files(input_file, output_file):
                                       'Result "%s" differs from expected "%s"' % (actual_line,
                                                                                   expected_line)))
                         sys.exit(1)
-            logging.info('OK: Tests are passing!')
+
+            time_delta = datetime.datetime.now() - time_start
+            time_hours_minutes_seconds = (time_delta.seconds // 3600, (time_delta.seconds // 60) % 60, time_delta.seconds % 60)
+            logging.info('OK: Tests are passing! (%i hours, %i minutes and %i seconds)' % time_hours_minutes_seconds)
         finally:
             logging.debug('Un-Mocking stdin and stdout...')
             sys.stdin = sys.__stdin__
             sys.stdout = sys.__stdout__
-
-    logging.debug('Registering exit handler for result comparison...')
     atexit.register(_test_it)
     logging.debug('Test setup done!')
 
